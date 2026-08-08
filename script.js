@@ -450,17 +450,12 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const formData = new FormData(regForm);
 
-                // Kirim data ke Google Apps Script dengan proteksi timeout 3 detik agar tidak menggantung
-                const fetchPromise = fetch(scriptUrl, {
+                // Kirim data ke Google Apps Script
+                await fetch(scriptUrl, {
                     method: 'POST',
                     mode: 'no-cors',
                     body: formData
                 });
-
-                const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 2500));
-
-                // Tunggu respons selesai atau maksimal 2.5 detik
-                await Promise.race([fetchPromise, timeoutPromise]);
 
                 // Tampilkan notifikasi sukses
                 showToast(
