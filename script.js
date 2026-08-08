@@ -448,25 +448,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const scriptUrl = 'https://script.google.com/macros/s/AKfycbzHbSUNa8F_9Y-fEu7Pbelcdte6W3O57bUVvkVLjgmc67BeEWfi2tSBcmZJ6BDGPFxN/exec';
 
             try {
-                // Gunakan URLSearchParams agar terbaca langsung oleh e.parameter di Google Apps Script
-                const params = new URLSearchParams();
-                for (const key in payload) {
-                    params.append(key, payload[key]);
-                }
+                const formData = new FormData(regForm);
 
-                await fetch(scriptUrl, {
+                // Kirim data ke Google Apps Script dengan proteksi timeout 3 detik agar tidak menggantung
+                const fetchPromise = fetch(scriptUrl, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
-                    body: params.toString()
+                    body: formData
                 });
+
+                const timeoutPromise = new Promise((resolve) => setTimeout(resolve, 2500));
+
+                // Tunggu respons selesai atau maksimal 2.5 detik
+                await Promise.race([fetchPromise, timeoutPromise]);
 
                 // Tampilkan notifikasi sukses
                 showToast(
                     'Pendaftaran Berhasil Dikirim!',
-                    `Jazakumullah Khairan, data awal ananda ${payload.nama} (${payload.program}) telah berhasil tersimpan di sistem kami. Tim PSB akan segera menghubungi via WhatsApp (${payload.whatsapp}).`
+                    `Jazakumullah Khairan, data ananda ${payload.nama} (${payload.program}) telah berhasil tersimpan di sistem kami. Tim PSB akan segera menghubungi via WhatsApp (${payload.whatsapp}).`
                 );
                 
                 regForm.reset();
