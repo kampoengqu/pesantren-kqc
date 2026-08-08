@@ -1,0 +1,13 @@
+{
+  "name": "pesantren-modern",
+  "version": "1.0.0",
+  "description": "Website Profil Pondok Pesantren Modern Al-Istiqomah dengan estetika premium.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.2.0"
+  }
+}
