@@ -128,39 +128,145 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ==========================================
-    // 5. FILTER GALERI KEGIATAN
+    // 5. FILTER & PAGINASI GALERI KEGIATAN (MAX 6 FOTO PER HALAMAN)
     // ==========================================
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
+    const galleryItems = Array.from(document.querySelectorAll('.gallery-item'));
+    const galleryPaginationContainer = document.getElementById('gallery-pagination');
 
+    const ITEMS_PER_PAGE = 6;
+    let currentGalleryFilter = 'all';
+    let currentGalleryPage = 1;
+    let currentFilteredItems = [];
+
+    const applyGalleryFilterAndPagination = (page = 1, shouldScroll = false) => {
+        // 1. Saring item yang sesuai dengan kategori aktif
+        currentFilteredItems = galleryItems.filter(item => {
+            const category = item.getAttribute('data-category');
+            return currentGalleryFilter === 'all' || category === currentGalleryFilter;
+        });
+
+        const totalPages = Math.ceil(currentFilteredItems.length / ITEMS_PER_PAGE) || 1;
+        currentGalleryPage = Math.max(1, Math.min(page, totalPages));
+
+        const startIndex = (currentGalleryPage - 1) * ITEMS_PER_PAGE;
+        const endIndex = startIndex + ITEMS_PER_PAGE;
+
+        // 2. Tampilkan/Sembunyikan item
+        galleryItems.forEach(item => {
+            const isInCategory = (currentGalleryFilter === 'all' || item.getAttribute('data-category') === currentGalleryFilter);
+            const indexInFiltered = currentFilteredItems.indexOf(item);
+
+            if (isInCategory && indexInFiltered >= startIndex && indexInFiltered < endIndex) {
+                item.style.display = 'block';
+                setTimeout(() => {
+                    item.style.opacity = '1';
+                    item.style.transform = 'scale(1)';
+                }, 40);
+            } else {
+                item.style.opacity = '0';
+                item.style.transform = 'scale(0.9)';
+                item.style.display = 'none';
+            }
+        });
+
+        // 3. Render Kontrol Paginasi
+        renderPaginationControls(totalPages);
+
+        // 4. Update data galeri untuk Lightbox Slider
+        updateGalleryData();
+
+        // 5. Scroll halus ke awal galeri jika di-klik dari tombol paginasi
+        if (shouldScroll) {
+            const gallerySection = document.getElementById('galeri');
+            if (gallerySection) {
+                const headerOffset = 80;
+                const elementPosition = gallerySection.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+        }
+    };
+
+    const renderPaginationControls = (totalPages) => {
+        if (!galleryPaginationContainer) return;
+        galleryPaginationContainer.innerHTML = '';
+
+        if (totalPages <= 1) {
+            galleryPaginationContainer.style.display = 'none';
+            return;
+        }
+
+        galleryPaginationContainer.style.display = 'flex';
+
+        // Tombol Sebelumnya (Prev)
+        const prevBtn = document.createElement('button');
+        prevBtn.type = 'button';
+        prevBtn.className = 'page-btn page-nav-btn';
+        prevBtn.disabled = currentGalleryPage === 1;
+        prevBtn.setAttribute('aria-label', 'Halaman Sebelumnya');
+        prevBtn.innerHTML = `
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="nav-prev">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+            </svg>
+            <span>Prev</span>
+        `;
+        prevBtn.addEventListener('click', () => {
+            if (currentGalleryPage > 1) {
+                applyGalleryFilterAndPagination(currentGalleryPage - 1, true);
+            }
+        });
+        galleryPaginationContainer.appendChild(prevBtn);
+
+        // Tombol Angka Halaman (1, 2, 3, ...)
+        for (let i = 1; i <= totalPages; i++) {
+            const numBtn = document.createElement('button');
+            numBtn.type = 'button';
+            numBtn.className = `page-btn ${i === currentGalleryPage ? 'active' : ''}`;
+            numBtn.textContent = i;
+            numBtn.setAttribute('aria-label', `Halaman ${i}`);
+            numBtn.addEventListener('click', () => {
+                if (i !== currentGalleryPage) {
+                    applyGalleryFilterAndPagination(i, true);
+                }
+            });
+            galleryPaginationContainer.appendChild(numBtn);
+        }
+
+        // Tombol Selanjutnya (Next)
+        const nextBtn = document.createElement('button');
+        nextBtn.type = 'button';
+        nextBtn.className = 'page-btn page-nav-btn';
+        nextBtn.disabled = currentGalleryPage === totalPages;
+        nextBtn.setAttribute('aria-label', 'Halaman Selanjutnya');
+        nextBtn.innerHTML = `
+            <span>Next</span>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" class="nav-next">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+            </svg>
+        `;
+        nextBtn.addEventListener('click', () => {
+            if (currentGalleryPage < totalPages) {
+                applyGalleryFilterAndPagination(currentGalleryPage + 1, true);
+            }
+        });
+        galleryPaginationContainer.appendChild(nextBtn);
+    };
+
+    // Filter Button Click Handlers
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
-            // Ubah tombol aktif
             filterButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             
-            const filterValue = button.getAttribute('data-filter');
-            
-            galleryItems.forEach(item => {
-                const category = item.getAttribute('data-category');
-                
-                if (filterValue === 'all' || category === filterValue) {
-                    item.style.display = 'block';
-                    // Delay animasi agar smooth
-                    setTimeout(() => {
-                        item.style.opacity = '1';
-                        item.style.transform = 'scale(1)';
-                    }, 50);
-                } else {
-                    item.style.opacity = '0';
-                    item.style.transform = 'scale(0.8)';
-                    setTimeout(() => {
-                        item.style.display = 'none';
-                    }, 300); // Sinkron dengan durasi transisi CSS
-                }
-            });
+            currentGalleryFilter = button.getAttribute('data-filter') || 'all';
+            currentGalleryPage = 1;
+            applyGalleryFilterAndPagination(1, false);
         });
     });
+
+    // Inisialisasi awal
+    applyGalleryFilterAndPagination(1, false);
 
 
     // ==========================================
@@ -180,10 +286,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentGalleryIndex = 0;
     let galleryData = [];
 
-    // Parse all gallery items data
-    const updateGalleryData = () => {
+    // Parse all active/filtered gallery items data
+    function updateGalleryData() {
         galleryData = [];
-        galleryItems.forEach((item, index) => {
+        const activeItems = (currentFilteredItems && currentFilteredItems.length > 0) ? currentFilteredItems : galleryItems;
+        activeItems.forEach((item, index) => {
             const img = item.querySelector('img');
             const caption = item.getAttribute('data-caption') || '';
             const category = item.getAttribute('data-category') || 'Galeri';
@@ -193,10 +300,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 alt: img ? img.alt : '',
                 caption: caption,
                 category: category.toUpperCase(),
-                title: title
+                title: title,
+                itemRef: item
             });
         });
-    };
+    }
 
     updateGalleryData();
 
@@ -270,11 +378,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Attach click to each gallery item
-    galleryItems.forEach((item, index) => {
+    galleryItems.forEach((item) => {
         item.addEventListener('click', () => {
             updateGalleryData();
             renderLightboxThumbs();
-            showGallerySlide(index);
+            const activeItems = (currentFilteredItems && currentFilteredItems.length > 0) ? currentFilteredItems : galleryItems;
+            const targetIdx = activeItems.indexOf(item);
+            showGallerySlide(targetIdx >= 0 ? targetIdx : 0);
             
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden'; // Kunci scroll halaman
