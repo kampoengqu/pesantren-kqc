@@ -252,7 +252,7 @@ window.prevLightboxSlide = function() {
 window.currentTestimonialIndex = 0;
 window.testimonialAutoTimer = null;
 
-window.goToTestimonialSlide = function(index) {
+window.goToTestimonialSlide = function(index, isManualClick = false) {
     const track = document.getElementById('carousel-track');
     const indicators = document.querySelectorAll('.carousel-indicators .indicator');
     if (!track) return;
@@ -276,7 +276,9 @@ window.goToTestimonialSlide = function(index) {
         }
     });
 
-    window.restartTestimonialAutoSlide();
+    if (isManualClick) {
+        window.restartTestimonialAutoSlide();
+    }
 };
 
 window.restartTestimonialAutoSlide = function() {
@@ -287,9 +289,12 @@ window.restartTestimonialAutoSlide = function() {
         const indicators = document.querySelectorAll('.carousel-indicators .indicator');
         const totalSlides = indicators.length || 3;
         const nextIndex = ((window.currentTestimonialIndex || 0) + 1) % totalSlides;
-        window.goToTestimonialSlide(nextIndex);
-    }, 4500);
+        window.goToTestimonialSlide(nextIndex, false);
+    }, 3500);
 };
+
+// Immediate auto-start timer
+window.restartTestimonialAutoSlide();
 
 // ==========================================
 // FORM SUBMISSION & TOAST NOTIFICATION LOGIC
@@ -812,9 +817,9 @@ document.addEventListener('DOMContentLoaded', () => {
         testimonialTrack.addEventListener('touchend', (e) => {
             touchEndX = e.changedTouches[0].screenX;
             if (touchStartX - touchEndX > 35) {
-                window.goToTestimonialSlide((window.currentTestimonialIndex || 0) + 1);
+                window.goToTestimonialSlide((window.currentTestimonialIndex || 0) + 1, true);
             } else if (touchEndX - touchStartX > 35) {
-                window.goToTestimonialSlide((window.currentTestimonialIndex || 0) - 1);
+                window.goToTestimonialSlide((window.currentTestimonialIndex || 0) - 1, true);
             }
         }, { passive: true });
     }
