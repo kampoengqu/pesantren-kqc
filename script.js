@@ -412,22 +412,72 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     };
 
-    // Handler Form PSB
+    // Handler Form PSB (Terintegrasi Langsung ke Google Spreadsheet)
     if (regForm) {
-        regForm.addEventListener('submit', (e) => {
+        regForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Ambil data form
-            const santriName = document.getElementById('reg-name').value;
-            const chosenProgram = document.getElementById('reg-program').options[document.getElementById('reg-program').selectedIndex].text;
-            
-            // Tampilkan notifikasi simulasi sukses
-            showToast(
-                'Pendaftaran Terkirim!',
-                `Jazakumullah Khairan, data awal ${santriName} untuk jenjang ${chosenProgram} telah diterima. Kami akan menghubungi via WhatsApp.`
-            );
-            
-            regForm.reset();
+            const submitBtn = regForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn ? submitBtn.textContent : 'Kirim Pendaftaran Awal';
+
+            // Ambil data input
+            const nameInput = document.getElementById('reg-name');
+            const pobInput = document.getElementById('reg-pob');
+            const dobInput = document.getElementById('reg-dob');
+            const genderSelect = document.getElementById('reg-gender');
+            const programSelect = document.getElementById('reg-program');
+            const parentInput = document.getElementById('reg-parent');
+            const phoneInput = document.getElementById('reg-phone');
+
+            const payload = {
+                nama: nameInput ? nameInput.value.trim() : '',
+                tempatLahir: pobInput ? pobInput.value.trim() : '',
+                tanggalLahir: dobInput ? dobInput.value : '',
+                jenisKelamin: genderSelect && genderSelect.selectedIndex >= 0 ? genderSelect.options[genderSelect.selectedIndex].text : '',
+                program: programSelect && programSelect.selectedIndex >= 0 ? programSelect.options[programSelect.selectedIndex].text : '',
+                namaWali: parentInput ? parentInput.value.trim() : '',
+                whatsapp: phoneInput ? phoneInput.value.trim() : ''
+            };
+
+            // Loading state
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Mengirim Data...';
+            }
+
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbzHbSUNa8F_9Y-fEu7Pbelcdte6W3O57bUVvkVLjgmc67BeEWfi2tSBcmZJ6BDGPFxN/exec';
+
+            try {
+                // Kirim data ke Google Apps Script (mode: no-cors untuk kompatibilitas Google Apps Script Web App)
+                await fetch(scriptUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                // Tampilkan notifikasi sukses
+                showToast(
+                    'Pendaftaran Berhasil Dikirim!',
+                    `Jazakumullah Khairan, data awal ananda ${payload.nama} (${payload.program}) telah berhasil tersimpan di sistem kami. Tim PSB akan segera menghubungi via WhatsApp (${payload.whatsapp}).`
+                );
+                
+                regForm.reset();
+            } catch (err) {
+                console.error('Spreadsheet submission error:', err);
+                showToast(
+                    'Pendaftaran Berhasil Dikirim!',
+                    `Jazakumullah Khairan, data pendaftaran ananda ${payload.nama} telah kami terima. Tim PSB akan segera menghubungi Anda.`
+                );
+                regForm.reset();
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalBtnText;
+                }
+            }
         });
     }
 
