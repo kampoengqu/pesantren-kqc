@@ -3085,6 +3085,10 @@ footer {
     transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.accordion-item.active .accordion-collapse {
+    max-height: 600px;
+}
+
 .accordion-body {
     padding: 0 1.5rem 1.35rem 1.5rem;
     font-size: 0.95rem;
