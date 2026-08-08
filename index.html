@@ -386,48 +386,48 @@
                 <form id="registration-form">
                     <div class="form-group">
                         <label for="reg-name">Nama Lengkap Calon Santri</label>
-                        <input type="text" id="reg-name" class="form-control" placeholder="Contoh: Muhammad Rafli" required>
+                        <input type="text" id="reg-name" name="nama" class="form-control" placeholder="Contoh: Muhammad Rafli" required>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label for="reg-pob">Tempat Lahir</label>
-                            <input type="text" id="reg-pob" class="form-control" placeholder="Contoh: Jakarta" required>
+                            <input type="text" id="reg-pob" name="tempatLahir" class="form-control" placeholder="Contoh: Jakarta" required>
                         </div>
                         <div class="form-group">
                             <label for="reg-dob">Tanggal Lahir</label>
-                            <input type="date" id="reg-dob" class="form-control" required>
+                            <input type="date" id="reg-dob" name="tanggalLahir" class="form-control" required>
                         </div>
                     </div>
                     
                     <div class="form-row">
                         <div class="form-group">
                             <label for="reg-gender">Jenis Kelamin</label>
-                            <select id="reg-gender" class="form-control" required>
+                            <select id="reg-gender" name="jenisKelamin" class="form-control" required>
                                 <option value="" disabled selected>Pilih...</option>
-                                <option value="L">Laki-laki (Santri)</option>
-                                <option value="P">Perempuan (Santriwati)</option>
+                                <option value="Laki-laki (Santri)">Laki-laki (Santri)</option>
+                                <option value="Perempuan (Santriwati)">Perempuan (Santriwati)</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="reg-program">Pilihan Program</label>
-                            <select id="reg-program" class="form-control" required>
+                            <select id="reg-program" name="program" class="form-control" required>
                                 <option value="" disabled selected>Pilih...</option>
-                                <option value="SMP_KQC">SMP KQC</option>
-                                <option value="TAKHASSUS">Takhassus Tahfidz</option>
-                                <option value="SANLAT">Sanlat Liburan</option>
+                                <option value="SMP KQC">SMP KQC</option>
+                                <option value="Takhassus Tahfidz">Takhassus Tahfidz</option>
+                                <option value="Sanlat Liburan">Sanlat Liburan</option>
                             </select>
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="reg-parent">Nama Orang Tua/Wali</label>
-                        <input type="text" id="reg-parent" class="form-control" placeholder="Contoh: H. Ahmad Fauzi" required>
+                        <input type="text" id="reg-parent" name="namaWali" class="form-control" placeholder="Contoh: H. Ahmad Fauzi" required>
                     </div>
                     
                     <div class="form-group">
                         <label for="reg-phone">No. WhatsApp Aktif</label>
-                        <input type="tel" id="reg-phone" class="form-control" placeholder="Contoh: 081234567890" required>
+                        <input type="tel" id="reg-phone" name="whatsapp" class="form-control" placeholder="Contoh: 081234567890" required>
                     </div>
                     
                     <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 1rem;">Kirim Pendaftaran Awal</button>

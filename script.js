@@ -448,14 +448,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const scriptUrl = 'https://script.google.com/macros/s/AKfycbzHbSUNa8F_9Y-fEu7Pbelcdte6W3O57bUVvkVLjgmc67BeEWfi2tSBcmZJ6BDGPFxN/exec';
 
             try {
-                // Kirim data ke Google Apps Script (mode: no-cors untuk kompatibilitas Google Apps Script Web App)
+                // Gunakan URLSearchParams agar terbaca langsung oleh e.parameter di Google Apps Script
+                const params = new URLSearchParams();
+                for (const key in payload) {
+                    params.append(key, payload[key]);
+                }
+
                 await fetch(scriptUrl, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: JSON.stringify(payload)
+                    body: params.toString()
                 });
 
                 // Tampilkan notifikasi sukses
