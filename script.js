@@ -707,74 +707,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ==========================================
+    // ==========================================
     // 10. SPA ROUTING (SMP KQC, TAKHASSUS TAHFIDZ, & SANLAT LIBURAN)
     // ==========================================
-    const landingView = document.getElementById('landing-view');
-    const spaViewSmp = document.getElementById('spa-view-smp');
-    const spaViewTakhassus = document.getElementById('spa-view-takhassus');
-    const spaViewSanlat = document.getElementById('spa-view-sanlat');
-
-    // SMP KQC Buttons
-    const btnOpenSmpDetail = document.getElementById('btn-open-smp-detail');
-    const btnBackFromSmp = document.getElementById('btn-back-from-smp');
-    const btnBackBottomSmp = document.getElementById('btn-back-bottom-smp');
-    const crumbHomeLink = document.getElementById('crumb-home-link');
-    const crumbProgramLink = document.getElementById('crumb-program-link');
-    const btnBrochureAction = document.getElementById('btn-brochure-action');
-
-    // Takhassus Buttons
-    const btnOpenTakhassusDetail = document.getElementById('btn-open-takhassus-detail');
-    const btnBackFromTakhassus = document.getElementById('btn-back-from-takhassus');
-    const btnBackBottomTakhassus = document.getElementById('btn-back-bottom-takhassus');
-    const crumbHomeTakhassus = document.getElementById('crumb-home-takhassus');
-    const crumbProgramTakhassus = document.getElementById('crumb-program-takhassus');
-    const btnBrochureTakhassus = document.getElementById('btn-brochure-takhassus');
-
-    // Sanlat Liburan Buttons
-    const btnOpenSanlatDetail = document.getElementById('btn-open-sanlat-detail');
-    const btnBackFromSanlat = document.getElementById('btn-back-from-sanlat');
-    const btnBackBottomSanlat = document.getElementById('btn-back-bottom-sanlat');
-    const crumbHomeSanlat = document.getElementById('crumb-home-sanlat');
-    const crumbProgramSanlat = document.getElementById('crumb-program-sanlat');
-    const btnBrochureSanlat = document.getElementById('btn-brochure-sanlat');
-
     const hideAllSpaViews = () => {
-        if (spaViewSmp) spaViewSmp.style.display = 'none';
-        if (spaViewTakhassus) spaViewTakhassus.style.display = 'none';
-        if (spaViewSanlat) spaViewSanlat.style.display = 'none';
+        const smp = document.getElementById('spa-view-smp');
+        const takhassus = document.getElementById('spa-view-takhassus');
+        const sanlat = document.getElementById('spa-view-sanlat');
+        if (smp) smp.style.display = 'none';
+        if (takhassus) takhassus.style.display = 'none';
+        if (sanlat) sanlat.style.display = 'none';
     };
 
-    const showSmpDetailPage = () => {
-        if (!landingView || !spaViewSmp) return;
-        landingView.style.display = 'none';
+    window.showSmpDetailPage = () => {
+        const landing = document.getElementById('landing-view');
+        const smp = document.getElementById('spa-view-smp');
+        if (landing) landing.style.display = 'none';
         hideAllSpaViews();
-        spaViewSmp.style.display = 'block';
+        if (smp) smp.style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'instant' });
-        history.pushState({ view: 'smp-detail' }, 'Detail Program SMP KQC', '#detail-smp-kqc');
+        if (window.location.hash !== '#detail-smp-kqc') {
+            history.pushState({ view: 'smp-detail' }, 'Detail Program SMP KQC', '#detail-smp-kqc');
+        }
     };
 
-    const showTakhassusDetailPage = () => {
-        if (!landingView || !spaViewTakhassus) return;
-        landingView.style.display = 'none';
+    window.showTakhassusDetailPage = () => {
+        const landing = document.getElementById('landing-view');
+        const takhassus = document.getElementById('spa-view-takhassus');
+        if (landing) landing.style.display = 'none';
         hideAllSpaViews();
-        spaViewTakhassus.style.display = 'block';
+        if (takhassus) takhassus.style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'instant' });
-        history.pushState({ view: 'takhassus-detail' }, 'Detail Program Takhassus Tahfidz', '#detail-takhassus');
+        if (window.location.hash !== '#detail-takhassus') {
+            history.pushState({ view: 'takhassus-detail' }, 'Detail Program Takhassus Tahfidz', '#detail-takhassus');
+        }
     };
 
-    const showSanlatDetailPage = () => {
-        if (!landingView || !spaViewSanlat) return;
-        landingView.style.display = 'none';
+    window.showSanlatDetailPage = () => {
+        const landing = document.getElementById('landing-view');
+        const sanlat = document.getElementById('spa-view-sanlat');
+        if (landing) landing.style.display = 'none';
         hideAllSpaViews();
-        spaViewSanlat.style.display = 'block';
+        if (sanlat) sanlat.style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'instant' });
-        history.pushState({ view: 'sanlat-detail' }, 'Detail Program Sanlat Liburan', '#detail-sanlat');
+        if (window.location.hash !== '#detail-sanlat') {
+            history.pushState({ view: 'sanlat-detail' }, 'Detail Program Sanlat Liburan', '#detail-sanlat');
+        }
     };
 
-    const showLandingPage = (targetSectionId = 'program') => {
-        if (!landingView) return;
+    window.showLandingPage = (targetSectionId = 'program') => {
+        const landing = document.getElementById('landing-view');
         hideAllSpaViews();
-        landingView.style.display = 'block';
+        if (landing) landing.style.display = 'block';
         
         if (targetSectionId === 'program') {
             const programsGrid = document.querySelector('#program .programs-grid');
@@ -783,7 +767,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     programsGrid.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 60);
             }
-        } else if (targetSectionId) {
+        } else if (targetSectionId && targetSectionId !== 'beranda') {
             const el = document.getElementById(targetSectionId);
             if (el) {
                 setTimeout(() => {
@@ -793,196 +777,59 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
                 }, 60);
             }
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
         history.pushState({ view: 'landing' }, 'Kampoeng Quran Cendekia', `#${targetSectionId}`);
     };
 
-    // Event Listeners for SMP KQC SPA
-    if (btnOpenSmpDetail) {
-        btnOpenSmpDetail.addEventListener('click', (e) => {
+    // Global Click Delegation untuk semua tombol & link SPA
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a, button');
+        if (!link) return;
+
+        const href = link.getAttribute('href') || '';
+        const id = link.id || '';
+        const dataTarget = link.getAttribute('data-spa-target') || '';
+
+        if (href === '#detail-smp-kqc' || id === 'btn-open-smp-detail' || dataTarget === 'smp') {
             e.preventDefault();
-            showSmpDetailPage();
-        });
-    }
-
-    if (btnBackFromSmp) {
-        btnBackFromSmp.addEventListener('click', (e) => {
+            window.showSmpDetailPage();
+        } else if (href === '#detail-takhassus' || id === 'btn-open-takhassus-detail' || dataTarget === 'takhassus') {
             e.preventDefault();
-            showLandingPage('program');
-        });
-    }
-
-    if (btnBackBottomSmp) {
-        btnBackBottomSmp.addEventListener('click', (e) => {
+            window.showTakhassusDetailPage();
+        } else if (href === '#detail-sanlat' || id === 'btn-open-sanlat-detail' || dataTarget === 'sanlat') {
             e.preventDefault();
-            showLandingPage('beranda');
-        });
-    }
-
-    if (crumbHomeLink) {
-        crumbHomeLink.addEventListener('click', (e) => {
+            window.showSanlatDetailPage();
+        } else if (link.classList.contains('btn-spa-back') || id.startsWith('btn-back-from-') || id.startsWith('btn-back-bottom-')) {
             e.preventDefault();
-            showLandingPage('beranda');
-        });
-    }
-
-    if (crumbProgramLink) {
-        crumbProgramLink.addEventListener('click', (e) => {
+            window.showLandingPage('program');
+        } else if (id.startsWith('crumb-home-')) {
             e.preventDefault();
-            showLandingPage('program');
-        });
-    }
-
-    if (btnBrochureAction) {
-        btnBrochureAction.addEventListener('click', () => {
-            showToast('Mengunduh Brosur', 'Brosur Digital SMP KQC sedang diunduh.');
-        });
-    }
-
-    // Event Listeners for Takhassus SPA
-    if (btnOpenTakhassusDetail) {
-        btnOpenTakhassusDetail.addEventListener('click', (e) => {
+            window.showLandingPage('beranda');
+        } else if (id.startsWith('crumb-program-')) {
             e.preventDefault();
-            showTakhassusDetailPage();
-        });
-    }
-
-    if (btnBackFromTakhassus) {
-        btnBackFromTakhassus.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLandingPage('program');
-        });
-    }
-
-    if (btnBackBottomTakhassus) {
-        btnBackBottomTakhassus.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLandingPage('beranda');
-        });
-    }
-
-    if (crumbHomeTakhassus) {
-        crumbHomeTakhassus.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLandingPage('beranda');
-        });
-    }
-
-    if (crumbProgramTakhassus) {
-        crumbProgramTakhassus.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLandingPage('program');
-        });
-    }
-
-    if (btnBrochureTakhassus) {
-        btnBrochureTakhassus.addEventListener('click', () => {
-            showToast('Mengunduh Brosur', 'Brosur Digital Takhassus Tahfidz sedang diunduh.');
-        });
-    }
-
-    // Event Listeners for Sanlat Liburan SPA
-    if (btnOpenSanlatDetail) {
-        btnOpenSanlatDetail.addEventListener('click', (e) => {
-            e.preventDefault();
-            showSanlatDetailPage();
-        });
-    }
-
-    if (btnBackFromSanlat) {
-        btnBackFromSanlat.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLandingPage('program');
-        });
-    }
-
-    if (btnBackBottomSanlat) {
-        btnBackBottomSanlat.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLandingPage('beranda');
-        });
-    }
-
-    if (crumbHomeSanlat) {
-        crumbHomeSanlat.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLandingPage('beranda');
-        });
-    }
-
-    if (crumbProgramSanlat) {
-        crumbProgramSanlat.addEventListener('click', (e) => {
-            e.preventDefault();
-            showLandingPage('program');
-        });
-    }
-
-    if (btnBrochureSanlat) {
-        btnBrochureSanlat.addEventListener('click', () => {
-            showToast('Mengunduh Brosur', 'Brosur Digital Sanlat Liburan sedang diunduh.');
-        });
-    }
-
-    // Handle back / forward browser buttons (SPA History)
-    window.addEventListener('popstate', () => {
-        if (location.hash === '#detail-smp-kqc') {
-            if (landingView && spaViewSmp) {
-                landingView.style.display = 'none';
-                hideAllSpaViews();
-                spaViewSmp.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'instant' });
-            }
-        } else if (location.hash === '#detail-takhassus') {
-            if (landingView && spaViewTakhassus) {
-                landingView.style.display = 'none';
-                hideAllSpaViews();
-                spaViewTakhassus.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'instant' });
-            }
-        } else if (location.hash === '#detail-sanlat') {
-            if (landingView && spaViewSanlat) {
-                landingView.style.display = 'none';
-                hideAllSpaViews();
-                spaViewSanlat.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'instant' });
-            }
-        } else {
-            if (landingView) {
-                hideAllSpaViews();
-                landingView.style.display = 'block';
-                if (location.hash) {
-                    const target = document.querySelector(location.hash);
-                    if (target) {
-                        target.scrollIntoView({ behavior: 'smooth' });
-                    }
-                }
-            }
+            window.showLandingPage('program');
         }
     });
 
-    // Check initial hash on direct page load
-    if (window.location.hash === '#detail-smp-kqc') {
-        if (landingView && spaViewSmp) {
-            landingView.style.display = 'none';
-            hideAllSpaViews();
-            spaViewSmp.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'instant' });
+    // Handle Route dari Hash URL
+    const handleUrlHash = () => {
+        const hash = window.location.hash;
+        if (hash === '#detail-smp-kqc') {
+            window.showSmpDetailPage();
+        } else if (hash === '#detail-takhassus') {
+            window.showTakhassusDetailPage();
+        } else if (hash === '#detail-sanlat') {
+            window.showSanlatDetailPage();
         }
-    } else if (window.location.hash === '#detail-takhassus') {
-        if (landingView && spaViewTakhassus) {
-            landingView.style.display = 'none';
-            hideAllSpaViews();
-            spaViewTakhassus.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'instant' });
-        }
-    } else if (window.location.hash === '#detail-sanlat') {
-        if (landingView && spaViewSanlat) {
-            landingView.style.display = 'none';
-            hideAllSpaViews();
-            spaViewSanlat.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'instant' });
-        }
-    }
+    };
+
+    window.addEventListener('popstate', handleUrlHash);
+    window.addEventListener('hashchange', handleUrlHash);
+
+    // Cek rute saat halaman pertama kali dimuat
+    handleUrlHash();
 
     // ==========================================
     // 11. SPA ACCORDION INTERACTION (EXCLUSIVE OPEN & PLUS/MINUS TOGGLE)
