@@ -1,3 +1,79 @@
+// ==========================================
+// GLOBAL SPA NAVIGATION FUNCTIONS
+// ==========================================
+window.hideAllSpaViews = function() {
+    const smp = document.getElementById('spa-view-smp');
+    const takhassus = document.getElementById('spa-view-takhassus');
+    const sanlat = document.getElementById('spa-view-sanlat');
+    if (smp) smp.style.display = 'none';
+    if (takhassus) takhassus.style.display = 'none';
+    if (sanlat) sanlat.style.display = 'none';
+};
+
+window.showSmpDetailPage = function() {
+    const landing = document.getElementById('landing-view');
+    const smp = document.getElementById('spa-view-smp');
+    if (landing) landing.style.display = 'none';
+    window.hideAllSpaViews();
+    if (smp) smp.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (window.location.hash !== '#detail-smp-kqc') {
+        history.pushState({ view: 'smp-detail' }, 'Detail SMP KQC', '#detail-smp-kqc');
+    }
+};
+
+window.showTakhassusDetailPage = function() {
+    const landing = document.getElementById('landing-view');
+    const takhassus = document.getElementById('spa-view-takhassus');
+    if (landing) landing.style.display = 'none';
+    window.hideAllSpaViews();
+    if (takhassus) takhassus.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (window.location.hash !== '#detail-takhassus') {
+        history.pushState({ view: 'takhassus-detail' }, 'Detail Takhassus Tahfidz', '#detail-takhassus');
+    }
+};
+
+window.showSanlatDetailPage = function() {
+    const landing = document.getElementById('landing-view');
+    const sanlat = document.getElementById('spa-view-sanlat');
+    if (landing) landing.style.display = 'none';
+    window.hideAllSpaViews();
+    if (sanlat) sanlat.style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    if (window.location.hash !== '#detail-sanlat') {
+        history.pushState({ view: 'sanlat-detail' }, 'Detail Sanlat Liburan', '#detail-sanlat');
+    }
+};
+
+window.showLandingPage = function(targetSectionId = 'program') {
+    const landing = document.getElementById('landing-view');
+    window.hideAllSpaViews();
+    if (landing) landing.style.display = 'block';
+
+    if (targetSectionId === 'program') {
+        const programsGrid = document.querySelector('#program .programs-grid');
+        if (programsGrid) {
+            setTimeout(() => {
+                programsGrid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 60);
+        }
+    } else if (targetSectionId && targetSectionId !== 'beranda') {
+        const el = document.getElementById(targetSectionId);
+        if (el) {
+            setTimeout(() => {
+                const headerOffset = 80;
+                const elementPosition = el.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }, 60);
+        }
+    } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    history.pushState({ view: 'landing' }, 'Kampoeng Quran Cendekia', `#${targetSectionId}`);
+};
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ==========================================
