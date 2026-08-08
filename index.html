@@ -416,7 +416,7 @@
                 <h3>Formulir Pendaftaran</h3>
                 <p>Isilah formulir di bawah ini dengan lengkap untuk memulai pendaftaran seleksi administrasi awal.</p>
                 
-                <form id="registration-form">
+                <form id="registration-form" onsubmit="window.handleRegistrationSubmit(event); return false;">
                     <div class="form-group">
                         <label for="reg-name">Nama Lengkap Calon Santri</label>
                         <input type="text" id="reg-name" name="nama" class="form-control" placeholder="Contoh: Muhammad Rafli" required>
@@ -512,9 +512,9 @@
                 </div>
                 
                 <div class="carousel-indicators" id="carousel-indicators">
-                    <button class="indicator active" data-slide="0"></button>
-                    <button class="indicator" data-slide="1"></button>
-                    <button class="indicator" data-slide="2"></button>
+                    <button class="indicator active" data-slide="0" onclick="window.goToTestimonialSlide(0);" aria-label="Slide Testimoni 1"></button>
+                    <button class="indicator" data-slide="1" onclick="window.goToTestimonialSlide(1);" aria-label="Slide Testimoni 2"></button>
+                    <button class="indicator" data-slide="2" onclick="window.goToTestimonialSlide(2);" aria-label="Slide Testimoni 3"></button>
                 </div>
             </div>
         </div>
@@ -1402,7 +1402,7 @@
             <div class="footer-col footer-newsletter">
                 <h4>Buletin KQC</h4>
                 <p>Dapatkan update info agenda, tausiyah bulanan, dan berita perkembangan prestasi santri kami langsung di email Anda.</p>
-                <form class="newsletter-form" id="newsletter-form" action="https://99b72d34.sibforms.com/serve/MUIFAIs3VP5x99nOsj-_eSh2S1Spj5Nz1ZWV_V295dKHHacaB3BAHkxjBtsV6tS3T1ojXrOwmw9nIPZ7XwICPi8fEpfviEtuaviCF0cKCUftHmVQubTUV--sk8tvcDOHVagEAZFtnAwy3AsOL4nZGDXSDf0XgRBOdej3Ej_ZX36EVuCqa7hkZ8NdFclFC26oM5BYOvc1UJUAk7lmzQ==" method="POST">
+                <form class="newsletter-form" id="newsletter-form" action="https://99b72d34.sibforms.com/serve/MUIFAIs3VP5x99nOsj-_eSh2S1Spj5Nz1ZWV_V295dKHHacaB3BAHkxjBtsV6tS3T1ojXrOwmw9nIPZ7XwICPi8fEpfviEtuaviCF0cKCUftHmVQubTUV--sk8tvcDOHVagEAZFtnAwy3AsOL4nZGDXSDf0XgRBOdej3Ej_ZX36EVuCqa7hkZ8NdFclFC26oM5BYOvc1UJUAk7lmzQ==" method="POST" onsubmit="window.handleNewsletterSubmit(event); return false;">
                     <input type="email" id="newsletter-email" name="EMAIL" placeholder="Alamat email Anda..." required aria-label="Email untuk berlangganan buletin">
                     <input type="text" name="email_address_check" value="" style="display:none;" tabindex="-1" autocomplete="off">
                     <input type="hidden" name="locale" value="id">

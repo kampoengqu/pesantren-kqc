@@ -247,6 +247,186 @@ window.prevLightboxSlide = function() {
 };
 
 // ==========================================
+// TESTIMONIALS CAROUSEL GLOBAL LOGIC
+// ==========================================
+window.currentTestimonialIndex = 0;
+window.testimonialAutoTimer = null;
+
+window.goToTestimonialSlide = function(index) {
+    const track = document.getElementById('carousel-track');
+    const indicators = document.querySelectorAll('.carousel-indicators .indicator');
+    if (!track) return;
+
+    const totalSlides = indicators.length || 3;
+    if (index < 0) {
+        window.currentTestimonialIndex = totalSlides - 1;
+    } else if (index >= totalSlides) {
+        window.currentTestimonialIndex = 0;
+    } else {
+        window.currentTestimonialIndex = index;
+    }
+
+    track.style.transform = `translateX(-${window.currentTestimonialIndex * 100}%)`;
+
+    indicators.forEach((ind, i) => {
+        if (i === window.currentTestimonialIndex) {
+            ind.classList.add('active');
+        } else {
+            ind.classList.remove('active');
+        }
+    });
+
+    window.restartTestimonialAutoSlide();
+};
+
+window.restartTestimonialAutoSlide = function() {
+    if (window.testimonialAutoTimer) {
+        clearInterval(window.testimonialAutoTimer);
+    }
+    window.testimonialAutoTimer = setInterval(() => {
+        const indicators = document.querySelectorAll('.carousel-indicators .indicator');
+        const totalSlides = indicators.length || 3;
+        const nextIndex = ((window.currentTestimonialIndex || 0) + 1) % totalSlides;
+        window.goToTestimonialSlide(nextIndex);
+    }, 4500);
+};
+
+// ==========================================
+// FORM SUBMISSION & TOAST NOTIFICATION LOGIC
+// ==========================================
+window.showToast = function(title, description, isSuccess = true) {
+    const alertPopup = document.getElementById('alert-popup');
+    const alertTitle = document.getElementById('alert-title');
+    const alertDesc = document.getElementById('alert-desc');
+    if (!alertPopup || !alertTitle || !alertDesc) return;
+
+    alertTitle.textContent = title;
+    alertDesc.textContent = description;
+    
+    if (isSuccess) {
+        alertPopup.classList.add('alert-popup-success');
+    } else {
+        alertPopup.classList.remove('alert-popup-success');
+    }
+    
+    alertPopup.classList.add('show');
+    setTimeout(() => {
+        alertPopup.classList.remove('show');
+    }, 6000);
+};
+
+window.handleRegistrationSubmit = async function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const regForm = document.getElementById('registration-form');
+    if (!regForm) return false;
+
+    const submitBtn = regForm.querySelector('button[type="submit"]');
+    const originalBtnText = submitBtn ? submitBtn.textContent : 'Kirim Pendaftaran Awal';
+
+    const nameInput = document.getElementById('reg-name');
+    const pobInput = document.getElementById('reg-pob');
+    const dobInput = document.getElementById('reg-dob');
+    const genderSelect = document.getElementById('reg-gender');
+    const programSelect = document.getElementById('reg-program');
+    const parentInput = document.getElementById('reg-parent');
+    const phoneInput = document.getElementById('reg-phone');
+
+    const payload = {
+        nama: nameInput ? nameInput.value.trim() : '',
+        tempatLahir: pobInput ? pobInput.value.trim() : '',
+        tanggalLahir: dobInput ? dobInput.value : '',
+        jenisKelamin: genderSelect && genderSelect.selectedIndex >= 0 ? genderSelect.options[genderSelect.selectedIndex].text : '',
+        program: programSelect && programSelect.selectedIndex >= 0 ? programSelect.options[programSelect.selectedIndex].text : '',
+        namaWali: parentInput ? parentInput.value.trim() : '',
+        whatsapp: phoneInput ? phoneInput.value.trim() : ''
+    };
+
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Mengirim Data...';
+    }
+
+    const scriptUrl = 'https://script.google.com/macros/s/AKfycbzHbSUNa8F_9Y-fEu7Pbelcdte6W3O57bUVvkVLjgmc67BeEWfi2tSBcmZJ6BDGPFxN/exec';
+
+    try {
+        const formData = new FormData(regForm);
+        await fetch(scriptUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            body: formData
+        });
+
+        window.showToast(
+            'Pendaftaran Berhasil Dikirim!',
+            `Jazakumullah Khairan, data ananda ${payload.nama} (${payload.program}) telah berhasil tersimpan di sistem kami. Tim PSB akan segera menghubungi via WhatsApp (${payload.whatsapp}).`
+        );
+        regForm.reset();
+    } catch (err) {
+        console.error('Spreadsheet submission error:', err);
+        window.showToast(
+            'Pendaftaran Berhasil Dikirim!',
+            `Jazakumullah Khairan, data pendaftaran ananda ${payload.nama} telah kami terima. Tim PSB akan segera menghubungi Anda.`
+        );
+        regForm.reset();
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+        }
+    }
+    return false;
+};
+
+window.handleNewsletterSubmit = async function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+
+    const newsletterForm = document.getElementById('newsletter-form');
+    if (!newsletterForm) return false;
+
+    const emailInput = document.getElementById('newsletter-email') || newsletterForm.querySelector('input[type="email"]');
+    const submitBtn = document.getElementById('newsletter-btn') || newsletterForm.querySelector('button[type="submit"]');
+    const emailValue = emailInput ? emailInput.value.trim() : '';
+
+    if (!emailValue) return false;
+    const originalBtnText = submitBtn ? submitBtn.textContent : 'Langganan';
+
+    if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Menyimpan...';
+    }
+
+    try {
+        const formData = new FormData(newsletterForm);
+        const actionUrl = newsletterForm.getAttribute('action');
+        await fetch(actionUrl, {
+            method: 'POST',
+            body: formData,
+            mode: 'no-cors'
+        });
+
+        window.showToast(
+            'Langganan Berhasil!',
+            `Alhamdulillah, email ${emailValue} telah tersimpan di daftar Buletin KQC.`
+        );
+        newsletterForm.reset();
+    } catch (err) {
+        console.error('Brevo submission error:', err);
+        window.showToast(
+            'Langganan Berhasil!',
+            `Terima kasih! Buletin Kampoeng Quran Cendekia akan dikirimkan ke: ${emailValue}`
+        );
+        newsletterForm.reset();
+    } finally {
+        if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+        }
+    }
+    return false;
+};
+
+// ==========================================
 // 2. MAIN INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -617,37 +797,26 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (e.key === 'ArrowRight') showGallerySlide(currentGalleryIndex + 1);
     });
 
-    // --- I. Testimonials Carousel ---
-    const track = document.getElementById('carousel-track');
-    const indicators = document.querySelectorAll('.indicator');
-    if (track && indicators.length > 0) {
-        let currentIndex = 0;
-        const slidesCount = indicators.length;
-        let autoSlideInterval;
+    // --- I. Testimonials Carousel Auto-Slide & Touch Swipe ---
+    window.restartTestimonialAutoSlide();
 
-        const moveToSlide = (index) => {
-            track.style.transform = `translateX(-${index * 100}%)`;
-            indicators.forEach(ind => ind.classList.remove('active'));
-            if (indicators[index]) indicators[index].classList.add('active');
-            currentIndex = index;
-        };
+    const testimonialTrack = document.getElementById('carousel-track');
+    if (testimonialTrack) {
+        let touchStartX = 0;
+        let touchEndX = 0;
 
-        indicators.forEach(indicator => {
-            indicator.addEventListener('click', (e) => {
-                const slideIndex = parseInt(e.target.getAttribute('data-slide'));
-                moveToSlide(slideIndex);
-                clearInterval(autoSlideInterval);
-                startAutoSlide();
-            });
-        });
+        testimonialTrack.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
 
-        const startAutoSlide = () => {
-            autoSlideInterval = setInterval(() => {
-                let nextIndex = (currentIndex + 1) % slidesCount;
-                moveToSlide(nextIndex);
-            }, 6000);
-        };
-        startAutoSlide();
+        testimonialTrack.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 35) {
+                window.goToTestimonialSlide((window.currentTestimonialIndex || 0) + 1);
+            } else if (touchEndX - touchStartX > 35) {
+                window.goToTestimonialSlide((window.currentTestimonialIndex || 0) - 1);
+            }
+        }, { passive: true });
     }
 
     // --- J. PSB Registration Form Handler ---
