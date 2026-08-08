@@ -91,6 +91,37 @@ window.toggleWaPopup = function() {
     }
 };
 
+window.closeWaPopup = function() {
+    const waPopup = document.getElementById('wa-popup');
+    const waFloatBtn = document.getElementById('wa-float-btn');
+    if (waPopup) waPopup.classList.remove('show');
+    if (waFloatBtn) waFloatBtn.setAttribute('aria-expanded', 'false');
+};
+
+window.sendWaMessage = function(customMessage) {
+    const waInputMsg = document.getElementById('wa-input-message');
+    const text = customMessage || (waInputMsg ? waInputMsg.value.trim() : '') || 'Assalamualaikum Admin Kampoeng Quran Cendekia, saya ingin bertanya info seputar pendaftaran.';
+    const waUrl = `https://api.whatsapp.com/send?phone=6281214880408&text=${encodeURIComponent(text)}`;
+    
+    const a = document.createElement('a');
+    a.href = waUrl;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    window.closeWaPopup();
+};
+
+window.sendWaForm = function(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const waInputMsg = document.getElementById('wa-input-message');
+    const text = waInputMsg ? waInputMsg.value.trim() : '';
+    window.sendWaMessage(text);
+    if (waInputMsg) waInputMsg.value = '';
+};
+
 window.toggleAccordionItem = function(headerBtn) {
     if (!headerBtn) return;
     const currentItem = headerBtn.closest('.accordion-item');
