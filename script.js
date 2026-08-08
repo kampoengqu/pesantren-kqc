@@ -74,6 +74,52 @@ window.showLandingPage = function(targetSectionId = 'program') {
     history.pushState({ view: 'landing' }, 'Kampoeng Quran Cendekia', `#${targetSectionId}`);
 };
 
+window.toggleWaPopup = function() {
+    const waPopup = document.getElementById('wa-popup');
+    const waFloatBtn = document.getElementById('wa-float-btn');
+    const waBadge = document.getElementById('wa-badge');
+    const waInputMsg = document.getElementById('wa-input-message');
+    if (!waPopup) return;
+
+    const isOpen = waPopup.classList.toggle('show');
+    if (waFloatBtn) waFloatBtn.setAttribute('aria-expanded', isOpen);
+    if (isOpen) {
+        if (waBadge) waBadge.style.display = 'none';
+        setTimeout(() => {
+            if (waInputMsg) waInputMsg.focus();
+        }, 150);
+    }
+};
+
+window.toggleAccordionItem = function(headerBtn) {
+    if (!headerBtn) return;
+    const currentItem = headerBtn.closest('.accordion-item');
+    if (!currentItem) return;
+
+    const parentAccordion = headerBtn.closest('.spa-accordion');
+    const isAlreadyActive = currentItem.classList.contains('active');
+    const plusIconSvg = '<svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>';
+    const minusIconSvg = '<svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13H5v-2h14v2z"/></svg>';
+
+    if (parentAccordion) {
+        const allItems = parentAccordion.querySelectorAll('.accordion-item');
+        allItems.forEach(item => {
+            item.classList.remove('active');
+            const btn = item.querySelector('.accordion-header');
+            const icon = item.querySelector('.accordion-icon');
+            if (btn) btn.setAttribute('aria-expanded', 'false');
+            if (icon) icon.innerHTML = plusIconSvg;
+        });
+    }
+
+    if (!isAlreadyActive) {
+        currentItem.classList.add('active');
+        headerBtn.setAttribute('aria-expanded', 'true');
+        const currentIcon = headerBtn.querySelector('.accordion-icon');
+        if (currentIcon) currentIcon.innerHTML = minusIconSvg;
+    }
+};
+
 // ==========================================
 // 2. MAIN INITIALIZATION
 // ==========================================

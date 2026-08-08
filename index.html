@@ -88,18 +88,18 @@
     <!-- Header & Navbar -->
     <header>
         <div class="container navbar">
-            <a href="#" class="logo" id="logo-brand">
+            <a href="#beranda" class="logo" id="logo-brand" onclick="window.showLandingPage('beranda'); return false;">
                 <img src="https://lh3.googleusercontent.com/pw/AP1GczP_Kfkdxc3bS41NKjvCOUb3WzLL7EXJN7KkNZRrTRW7xI5kWbHCfEqTl4ID0zHV68jHAbZioXa4dytdtBqQaNYrzclMrLqZVh94NVJb0HNty5y0L6l33W_DrtGdxVr5LuCd2OQ7QZapLDPhYSQJgV1w=w435-h100-s-no-gm?authuser=0" alt="Logo Pesantren Al-Istiqomah" class="logo-img">
             </a>
             
             <nav>
                 <ul class="nav-links" id="nav-menu">
-                    <li><a href="#beranda" class="active">Beranda</a></li>
-                    <li><a href="#profil">Profil</a></li>
-                    <li><a href="#program">Program</a></li>
-                    <li><a href="#galeri">Galeri</a></li>
-                    <li><a href="#psb">Pendaftaran</a></li>
-                    <li><a href="#kontak">Kontak</a></li>
+                    <li><a href="#beranda" class="active" onclick="window.showLandingPage('beranda'); return false;">Beranda</a></li>
+                    <li><a href="#profil" onclick="window.showLandingPage('profil'); return false;">Profil</a></li>
+                    <li><a href="#program" onclick="window.showLandingPage('program'); return false;">Program</a></li>
+                    <li><a href="#galeri" onclick="window.showLandingPage('galeri'); return false;">Galeri</a></li>
+                    <li><a href="#psb" onclick="window.showLandingPage('psb'); return false;">Pendaftaran</a></li>
+                    <li><a href="#kontak" onclick="window.showLandingPage('kontak'); return false;">Kontak</a></li>
                 </ul>
             </nav>
             
@@ -125,7 +125,7 @@
                 </button>
                 
                 <!-- CTA Button -->
-                <a href="#psb" class="btn btn-primary" style="padding: 0.6rem 1.25rem; font-size: 0.85rem;">Daftar PSB</a>
+                <a href="#psb" class="btn btn-primary" style="padding: 0.6rem 1.25rem; font-size: 0.85rem;" onclick="window.showLandingPage('psb'); return false;">Daftar PSB</a>
                 
                 <!-- Toggle Menu Mobile -->
                 <button class="menu-toggle" id="menu-toggle" aria-label="Open Menu">
@@ -748,7 +748,7 @@
                     <div class="spa-accordion" id="spa-smp-accordion">
                         <!-- Accordion Item 1 -->
                         <div class="accordion-item active">
-                            <button type="button" class="accordion-header" aria-expanded="true">
+                            <button type="button" class="accordion-header" aria-expanded="true" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Ada program apa saja di SMP KQC?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13H5v-2h14v2z"/></svg>
@@ -763,7 +763,7 @@
 
                         <!-- Accordion Item 2 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Berapa biaya pendidikannya?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -778,7 +778,7 @@
 
                         <!-- Accordion Item 3 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Apa perbedaan sistem Boarding dan Full Day?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -793,7 +793,7 @@
 
                         <!-- Accordion Item 4 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Apakah ada kelas beasiswa santri berprestasi?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -808,7 +808,7 @@
 
                         <!-- Accordion Item 5 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Bagaimana alur dan syarat pendaftarannya?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -999,13 +999,13 @@
                     <div class="spa-accordion" id="spa-takhassus-accordion">
                         <!-- Accordion Item 1 -->
                         <div class="accordion-item active">
-                            <button type="button" class="accordion-header" aria-expanded="true">
+                            <button type="button" class="accordion-header" aria-expanded="true" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Berapa lama target menyelesaikan hafalan 30 Juz?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13H5v-2h14v2z"/></svg>
                                 </span>
                             </button>
-                            <div class="accordion-collapse" style="max-height: 200px;">
+                            <div class="accordion-collapse">
                                 <div class="accordion-body">
                                     <p>Program Takhassus dirancang dengan kurikulum akselerasi 1 hingga 2 tahun tergantung pada kesiapan, komitmen hafalan awal, dan kecepatan daya ingat masing-masing santri dengan evaluasi bulanan.</p>
                                 </div>
@@ -1014,7 +1014,7 @@
 
                         <!-- Accordion Item 2 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Apakah calon santri yang belum punya hafalan boleh mendaftar?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -1029,7 +1029,7 @@
 
                         <!-- Accordion Item 3 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Bagaimana sistem muraja'ah agar hafalan tetap mutqin?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -1044,7 +1044,7 @@
 
                         <!-- Accordion Item 4 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Apakah program ini terbuka untuk santri ikhwan dan akhwat?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -1059,7 +1059,7 @@
 
                         <!-- Accordion Item 5 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Bagaimana cara pendaftaran dan tahapan seleksinya?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -1250,13 +1250,13 @@
                     <div class="spa-accordion" id="spa-sanlat-accordion">
                         <!-- Accordion Item 1 -->
                         <div class="accordion-item active">
-                            <button type="button" class="accordion-header" aria-expanded="true">
+                            <button type="button" class="accordion-header" aria-expanded="true" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Kapan jadwal pelaksanaan Sanlat Liburan diadakan?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13H5v-2h14v2z"/></svg>
                                 </span>
                             </button>
-                            <div class="accordion-collapse" style="max-height: 200px;">
+                            <div class="accordion-collapse">
                                 <div class="accordion-body">
                                     <p>Sanlat Liburan diselenggarakan rutin dua kali dalam setahun bertepatan dengan masa liburan kenaikan kelas (Juni/Juli) dan liburan akhir tahun (Desember/Januari). Terdapat pilihan durasi 1 pekan (7 hari) dan 2 pekan (14 hari).</p>
                                 </div>
@@ -1265,7 +1265,7 @@
 
                         <!-- Accordion Item 2 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Berapa rentang usia peserta yang dapat mendaftar?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -1280,7 +1280,7 @@
 
                         <!-- Accordion Item 3 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Apakah peserta diperbolehkan membawa ponsel (smartphone)?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -1295,7 +1295,7 @@
 
                         <!-- Accordion Item 4 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Apa saja perlengkapan yang wajib dibawa peserta?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -1310,7 +1310,7 @@
 
                         <!-- Accordion Item 5 -->
                         <div class="accordion-item">
-                            <button type="button" class="accordion-header" aria-expanded="false">
+                            <button type="button" class="accordion-header" aria-expanded="false" onclick="window.toggleAccordionItem(this);">
                                 <span class="accordion-title">Bagaimana cara mendaftar dan berapa kuota pesertanya?</span>
                                 <span class="accordion-icon">
                                     <svg viewBox="0 0 24 24" class="icon-svg"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
@@ -1529,7 +1529,7 @@
         </div>
 
         <!-- Floating Action Button with Periodic Bounce & Notification Dot (Clean Solid Style) -->
-        <button class="wa-float-btn" id="wa-float-btn" aria-label="Buka Chat WhatsApp" aria-expanded="false">
+        <button class="wa-float-btn" id="wa-float-btn" aria-label="Buka Chat WhatsApp" aria-expanded="false" onclick="window.toggleWaPopup();">
             <span class="wa-notify-badge" id="wa-badge"></span>
             <svg viewBox="0 0 48 48" width="34" height="34" class="wa-btn-icon">
                 <path fill="none" stroke="#ffffff" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round" d="M24 4.5C13.23 4.5 4.5 13.23 4.5 24c0 3.73 1.05 7.21 2.87 10.17L4.5 43.5l9.62-2.77C16.92 42.42 20.35 43.5 24 43.5c10.77 0 19.5-8.73 19.5-19.5S34.77 4.5 24 4.5z"/>
