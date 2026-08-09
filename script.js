@@ -17,7 +17,7 @@ window.showSmpDetailPage = function() {
     window.hideAllSpaViews();
     if (smp) smp.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'instant' });
-    if (window.location.hash !== '#detail-smp-kqc') {
+    if (!window.location.hash.includes('smp')) {
         history.pushState({ view: 'smp-detail' }, 'Detail SMP KQC', '#detail-smp-kqc');
     }
 };
@@ -29,7 +29,7 @@ window.showTakhassusDetailPage = function() {
     window.hideAllSpaViews();
     if (takhassus) takhassus.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'instant' });
-    if (window.location.hash !== '#detail-takhassus') {
+    if (!window.location.hash.includes('takhassus')) {
         history.pushState({ view: 'takhassus-detail' }, 'Detail Takhassus Tahfidz', '#detail-takhassus');
     }
 };
@@ -41,7 +41,7 @@ window.showSanlatDetailPage = function() {
     window.hideAllSpaViews();
     if (sanlat) sanlat.style.display = 'block';
     window.scrollTo({ top: 0, behavior: 'instant' });
-    if (window.location.hash !== '#detail-sanlat') {
+    if (!window.location.hash.includes('sanlat')) {
         history.pushState({ view: 'sanlat-detail' }, 'Detail Sanlat Liburan', '#detail-sanlat');
     }
 };
@@ -1058,14 +1058,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- O. Hash Routing on URL change ---
+    // --- O. Hash & Path Routing on URL change ---
     const handleUrlHash = () => {
-        const hash = window.location.hash;
-        if (hash === '#detail-smp-kqc') {
+        const hash = window.location.hash || '';
+        const path = window.location.pathname || '';
+
+        if (hash === '#detail-smp-kqc' || hash === '#detail-smp-kqc.html' || path.includes('smp')) {
             window.showSmpDetailPage();
-        } else if (hash === '#detail-takhassus') {
+        } else if (hash === '#detail-takhassus' || hash === '#detail-takhassus.html' || path.includes('takhassus')) {
             window.showTakhassusDetailPage();
-        } else if (hash === '#detail-sanlat') {
+        } else if (hash === '#detail-sanlat' || hash === '#detail-sanlat.html' || path.includes('sanlat')) {
             window.showSanlatDetailPage();
         }
     };
