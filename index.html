@@ -99,7 +99,7 @@
             if (targetView) {
                 var styleEl = document.createElement('style');
                 styleEl.id = 'dynamic-route-style';
-                styleEl.innerHTML = '#landing-view { display: none; } #' + targetView + ' { display: block; }';
+                styleEl.innerHTML = '#landing-view { display: none !important; } #' + targetView + ' { display: block !important; }';
                 document.head.appendChild(styleEl);
             }
         })();

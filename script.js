@@ -13,6 +13,9 @@ window.hideAllSpaViews = function() {
 window.showSmpDetailPage = function() {
     const landing = document.getElementById('landing-view');
     const smp = document.getElementById('spa-view-smp');
+    const dynamicStyle = document.getElementById('dynamic-route-style');
+    if (dynamicStyle) dynamicStyle.remove();
+
     if (landing) landing.style.display = 'none';
     window.hideAllSpaViews();
     if (smp) smp.style.display = 'block';
@@ -25,6 +28,9 @@ window.showSmpDetailPage = function() {
 window.showTakhassusDetailPage = function() {
     const landing = document.getElementById('landing-view');
     const takhassus = document.getElementById('spa-view-takhassus');
+    const dynamicStyle = document.getElementById('dynamic-route-style');
+    if (dynamicStyle) dynamicStyle.remove();
+
     if (landing) landing.style.display = 'none';
     window.hideAllSpaViews();
     if (takhassus) takhassus.style.display = 'block';
@@ -37,6 +43,9 @@ window.showTakhassusDetailPage = function() {
 window.showSanlatDetailPage = function() {
     const landing = document.getElementById('landing-view');
     const sanlat = document.getElementById('spa-view-sanlat');
+    const dynamicStyle = document.getElementById('dynamic-route-style');
+    if (dynamicStyle) dynamicStyle.remove();
+
     if (landing) landing.style.display = 'none';
     window.hideAllSpaViews();
     if (sanlat) sanlat.style.display = 'block';
