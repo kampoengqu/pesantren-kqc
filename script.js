@@ -1058,21 +1058,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- O. Hash & Path Routing on URL change ---
-    const handleUrlHash = () => {
+    // --- O. Query Parameter & Hash Routing ---
+    const handleUrlRouting = () => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const programParam = searchParams.get('program') || searchParams.get('artikel') || '';
         const hash = window.location.hash || '';
         const path = window.location.pathname || '';
 
-        if (hash === '#detail-smp-kqc' || hash === '#detail-smp-kqc.html' || path.includes('smp')) {
+        if (programParam === 'smp' || programParam === 'smp-kqc' || hash.includes('smp') || path.includes('smp')) {
             window.showSmpDetailPage();
-        } else if (hash === '#detail-takhassus' || hash === '#detail-takhassus.html' || path.includes('takhassus')) {
+        } else if (programParam === 'takhassus' || hash.includes('takhassus') || path.includes('takhassus')) {
             window.showTakhassusDetailPage();
-        } else if (hash === '#detail-sanlat' || hash === '#detail-sanlat.html' || path.includes('sanlat')) {
+        } else if (programParam === 'sanlat' || hash.includes('sanlat') || path.includes('sanlat')) {
             window.showSanlatDetailPage();
         }
     };
 
-    window.addEventListener('popstate', handleUrlHash);
-    window.addEventListener('hashchange', handleUrlHash);
-    handleUrlHash();
+    window.addEventListener('popstate', handleUrlRouting);
+    window.addEventListener('hashchange', handleUrlRouting);
+    handleUrlRouting();
 });

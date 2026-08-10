@@ -80,6 +80,23 @@
     }
     </script>
     
+    <!-- Instant Zero-Flicker SPA Route Synchronizer -->
+    <script>
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var program = params.get('program') || params.get('artikel');
+            var hash = window.location.hash || '';
+
+            if (program === 'smp' || program === 'smp-kqc' || hash.indexOf('smp') !== -1) {
+                document.write('<style>#landing-view{display:none !important;}#spa-view-smp{display:block !important;}</style>');
+            } else if (program === 'takhassus' || hash.indexOf('takhassus') !== -1) {
+                document.write('<style>#landing-view{display:none !important;}#spa-view-takhassus{display:block !important;}</style>');
+            } else if (program === 'sanlat' || hash.indexOf('sanlat') !== -1) {
+                document.write('<style>#landing-view{display:none !important;}#spa-view-sanlat{display:block !important;}</style>');
+            }
+        })();
+    </script>
+    
     <!-- CSS Tautan -->
     <link rel="stylesheet" href="style.css">
 </head>
