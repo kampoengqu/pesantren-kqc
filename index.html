@@ -87,12 +87,20 @@
             var program = params.get('program') || params.get('artikel');
             var hash = window.location.hash || '';
 
+            var targetView = null;
             if (program === 'smp' || program === 'smp-kqc' || hash.indexOf('smp') !== -1) {
-                document.write('<style>#landing-view{display:none !important;}#spa-view-smp{display:block !important;}</style>');
+                targetView = 'spa-view-smp';
             } else if (program === 'takhassus' || hash.indexOf('takhassus') !== -1) {
-                document.write('<style>#landing-view{display:none !important;}#spa-view-takhassus{display:block !important;}</style>');
+                targetView = 'spa-view-takhassus';
             } else if (program === 'sanlat' || hash.indexOf('sanlat') !== -1) {
-                document.write('<style>#landing-view{display:none !important;}#spa-view-sanlat{display:block !important;}</style>');
+                targetView = 'spa-view-sanlat';
+            }
+
+            if (targetView) {
+                var styleEl = document.createElement('style');
+                styleEl.id = 'dynamic-route-style';
+                styleEl.innerHTML = '#landing-view { display: none; } #' + targetView + ' { display: block; }';
+                document.head.appendChild(styleEl);
             }
         })();
     </script>

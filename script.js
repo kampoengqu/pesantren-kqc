@@ -46,10 +46,26 @@ window.showSanlatDetailPage = function() {
     }
 };
 
-window.showLandingPage = function(targetSectionId = 'program') {
+window.showLandingPage = function(targetSectionId = 'beranda') {
     const landing = document.getElementById('landing-view');
     window.hideAllSpaViews();
-    if (landing) landing.style.display = 'block';
+
+    if (landing) {
+        landing.style.display = 'block';
+    }
+
+    // Hapus style route override jika ada dari head
+    const dynamicStyle = document.getElementById('dynamic-route-style');
+    if (dynamicStyle) {
+        dynamicStyle.remove();
+    }
+
+    // Bersihkan URL query parameter (?program=...) agar bersih saat navigasi di beranda
+    const cleanHash = (targetSectionId && targetSectionId !== 'beranda') ? '#' + targetSectionId : '';
+    const cleanUrl = window.location.pathname + cleanHash;
+    if (window.location.search || window.location.hash !== cleanHash) {
+        history.pushState({ view: 'landing' }, 'Kampoeng Quran Cendekia', cleanUrl);
+    }
 
     if (targetSectionId === 'program') {
         const programsGrid = document.querySelector('#program .programs-grid') || document.getElementById('program');
@@ -71,7 +87,6 @@ window.showLandingPage = function(targetSectionId = 'program') {
     } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    history.pushState({ view: 'landing' }, 'Kampoeng Quran Cendekia', `#${targetSectionId}`);
 };
 
 window.toggleWaPopup = function() {
